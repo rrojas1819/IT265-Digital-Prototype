@@ -1,0 +1,282 @@
+CHAOS POKER BATTLE - FULL UNITY ARCHITECTURE PLAN
+
+PURPOSE:
+This blueprint integrates the official game rules with an implementation-first Unity architecture.
+It is built to support full design scope (3-6 players) while still running the current prototype setup (Seat_1 to Seat_4).
+Legacy compatibility is no longer required: old loop code can be replaced when a new phase is implemented.
+
+==================================================
+1) GAME RULES SNAPSHOT (AUTHORITATIVE DESIGN INPUT)
+==================================================
+- Health: 180 HP starting value.
+- Player count: 3-6 supported (4 is primary target now).
+- Round cap: 8-10.
+- Start hand (6 cards guaranteed): one of each suit + one 9 + one random.
+- Turn flow: play up to 5 cards, resolve, discard up to 1, draw to 6.
+- Base deck: 52 cards (number + special composition per ruleset).
+- Joker: injected after round 3 (deck becomes 53).
+- Win: last alive, or highest HP at round cap.
+
+Core special mechanics to implement as first-class systems:
+- Poker combo damage engine.
+- Four 10s ultimatum branch.
+- Suit identity buffs.
+- Permanent buff zone (4 same-suit lock-in and swap logic).
+- Berserk (double-attack and interrupt variants).
+- Joker class constraints, stats, and dice-activated abilities.
+
+==================================================
+2) CURRENT SCENE MAP (DO NOT RENAME IN CODE ASSUMPTIONS)
+==================================================
+Main roots:
+- Main
+- Game Controller
+- Main Camera
+- Directional Light
+- Global Volume
+- Canvas
+- EventSystem
+
+Table/UI roots:
+- Canvas/TableRoot
+- Canvas/TableRoot/TableArt
+- Canvas/TableRoot/Seat_1
+- Canvas/TableRoot/Seat_2
+- Canvas/TableRoot/Seat_3
+- Canvas/TableRoot/Seat_4
+- Canvas/CenterInfo
+- Canvas/CenterInfo/Info
+- Canvas/DeckSystem
+- Canvas/DeckSystem/DrawDeck
+- Canvas/DeckSystem/DiscardDeck
+- Canvas/EndTurn
+- Canvas/GameOver
+- Canvas/Start Menu
+- Canvas/Game Settings
+- Canvas/CardTemplate
+- Canvas/CardArt
+- Canvas/CardZoomPreview
+
+Seat template path observed:
+- Canvas/TableRoot/Seat_1/SeatView_Template
+
+==================================================
+3) TARGET SCRIPT ARCHITECTURE
+==================================================
+Folder layout:
+- Assets/Scripts/Core
+- Assets/Scripts/Data/Cards
+- Assets/Scripts/Data/Rules
+- Assets/Scripts/Entities
+- Assets/Scripts/Systems
+- Assets/Scripts/Managers
+- Assets/Scripts/UI
+- Assets/Scripts/AI
+
+Data assets:
+- Assets/Resources/Cards
+- Assets/Resources/Rules
+
+----------------------------
+3A) Core (global infrastructure)
+----------------------------
+- Assets/Scripts/Core/GameEvents.cs
+  Event hub (turn, draw, discard, damage, heal, death, round, class change, berserk trigger, game over).
+
+- Assets/Scripts/Core/RNGService.cs
+  Deterministic random provider for deck shuffle, bot randomness, and dice rolls.
+
+- Assets/Scripts/Core/GameConfig.cs
+  Config object for player count, round cap, and debug toggles.
+
+----------------------------
+3B) Data layer (ScriptableObjects)
+----------------------------
+- Assets/Scripts/Data/Cards/CardData.cs
+  Base card schema.
+
+- Assets/Scripts/Data/Cards/NumberCardData.cs
+  Rank/suit/value card definitions (4-10).
+
+- Assets/Scripts/Data/Cards/SpecialCardData.cs
+  Special card definitions and effect type enum.
+
+- Assets/Scripts/Data/Cards/ICardEffect.cs
+  Optional strategy interface for effect handlers.
+
+- Assets/Scripts/Data/Rules/RulesetData.cs
+  Central numeric constants (HP, draw size, combo multipliers, chip values, etc).
+
+----------------------------
+3C) Runtime entities (state holders)
+----------------------------
+- Assets/Scripts/Entities/PlayerEntity.cs
+  Seat ID, player type (human/bot), HP, hand, discard permissions, suit state, joker flags, berserk state.
+
+- Assets/Scripts/Entities/PlayerBuffController.cs
+  Suit buffs and permanent buff zone ownership.
+
+- Assets/Scripts/Entities/JokerState.cs
+  Joker-only runtime state and cooldown/effect caps.
+
+----------------------------
+3D) Stateless systems (pure logic)
+----------------------------
+- Assets/Scripts/Systems/PokerHandEvaluator.cs
+  Evaluates played sets (pair, triple, four-kind, straight, straight flush, duplicates).
+
+- Assets/Scripts/Systems/DamageFormulaSystem.cs
+  Computes final damage with combo scaling and suit/joker modifiers.
+
+- Assets/Scripts/Systems/BerserkSystem.cs
+  Tracks attackers per round and resolves berserk tier unlock.
+
+- Assets/Scripts/Systems/SpecialEffectResolver.cs
+  Applies special card effects as deterministic commands.
+
+- Assets/Scripts/Systems/CombatResolver.cs
+  Executes attack results onto targets and publishes events.
+
+----------------------------
+3E) Managers (orchestration/state machine)
+----------------------------
+- Assets/Scripts/Managers/DeckManager.cs
+  Builds deck from assets, guarantees starting hand composition, injects Joker after round 3.
+
+- Assets/Scripts/Managers/TurnManager.cs
+  Stack-based turn flow machine:
+  Draw -> Decide -> CommitCards -> Resolve -> Discard -> Refill -> EndTurn.
+  Supports push/pop for berserk interrupt turns.
+
+- Assets/Scripts/Managers/RoundManager.cs
+  Round transitions, attacker reset tables, per-round effects/chip damage.
+
+- Assets/Scripts/Managers/GameManager.cs
+  Match bootstrap, active roster, elimination checks, win resolution.
+
+----------------------------
+3F) UI and scene binding
+----------------------------
+- Assets/Scripts/UI/TableUIController.cs
+  Connects runtime state to seat views and center/deck/game-over panels.
+
+- Assets/Scripts/UI/SeatView.cs
+  Per-seat visual driver (name, hp bar, class tag, hand slots, status markers).
+
+- Assets/Scripts/UI/PlayerAction.cs
+  Human interaction bridge (select cards, pick targets, end turn, async choice prompts).
+
+- Assets/Scripts/UI/PromptController.cs
+  Async modal prompts for Four 10s and class/effect decisions.
+
+----------------------------
+3G) AI
+----------------------------
+- Assets/Scripts/AI/BotDecisionService.cs
+  Chooses play set, targeting, discard, and special timing.
+
+- Assets/Scripts/AI/BotRiskModel.cs
+  Optional heuristic scoring (threat, kill potential, retaliation risk).
+
+==================================================
+4) UNITY CONNECTION MAP (WHO TALKS TO WHO)
+==================================================
+Scene object wiring:
+- Game Controller object -> GameManager bootstrap MonoBehaviour.
+- Canvas/TableRoot -> TableUIController seat binding source.
+- Canvas/EndTurn -> PlayerAction.EndTurn button action.
+- Canvas/DeckSystem -> visual counters updated by DeckManager events.
+- Canvas/GameOver -> shown by TableUIController on GameEvents.OnGameEnded.
+
+Data flow:
+1) GameManager starts match and asks DeckManager for initial hands.
+2) TurnManager requests action from:
+   - PlayerAction if human seat.
+   - BotDecisionService if bot seat.
+3) Action payload goes to PokerHandEvaluator + DamageFormulaSystem.
+4) CombatResolver applies results to PlayerEntity states.
+5) GameEvents emit updates.
+6) TableUIController updates SeatView and center/deck/game-over UI.
+
+==================================================
+5) PLAYER SLOT STRATEGY
+==================================================
+Design supports 3-6 players.
+Current scene supports 4 seat transforms.
+
+Immediate implementation rule:
+- Seat_1 = human.
+- Seat_2/Seat_3/Seat_4 = bots.
+
+Future expansion rule:
+- Add Seat_5 and Seat_6 transforms under Canvas/TableRoot when ready.
+- No system rewrite required if seat map remains data-driven.
+
+==================================================
+6) IMPLEMENTATION PHASES (EXECUTION ORDER)
+==================================================
+PHASE 0 - Seat activation and player-count validation (do this first)
+- Add a seat layout controller that maps selected player count to active seat objects.
+- Required behavior:
+  - If player count is 2: show Seat_1 and Seat_2 only.
+  - If player count is 3: show Seat_1, Seat_2, Seat_3 only.
+  - If player count is 4: show Seat_1, Seat_2, Seat_3, Seat_4.
+- All non-participating seat GameObjects must be hidden before gameplay starts.
+- Validate seat references at startup:
+  - Ensure each required seat transform exists.
+  - If missing, log a clear error and prevent game start.
+- Bind runtime roster to active seats only (no ghost players, no extra visible seats).
+- UI must derive displayed player labels from active roster, not static seat count.
+
+PHASE 1 - Foundations
+- GameEvents, RNGService, RulesetData, core card ScriptableObjects.
+- Keep only temporary adapters needed for compile stability.
+- Mark legacy controller paths for removal in the next migration phase.
+
+PHASE 2 - Core runtime state
+- PlayerEntity, PlayerBuffController, GameManager skeleton, DeckManager skeleton.
+- Begin active replacement of legacy state ownership from `GameController`/`PlayerController` to new entities/managers.
+
+PHASE 3 - Combat math
+- PokerHandEvaluator, DamageFormulaSystem, CombatResolver.
+
+PHASE 4 - Turn and rounds
+- TurnManager stack machine, RoundManager, BerserkSystem integration.
+
+PHASE 5 - Special mechanics
+- Four 10s choice flow, permanent buffs, Joker class, void rules, AoE/forced-all-in.
+
+PHASE 6 - UI integration
+- TableUIController, SeatView, PromptController, human action bridge.
+- Remove legacy UI orchestration paths once new UI binding is functional.
+
+PHASE 7 - Bot logic and tuning
+- BotDecisionService baseline heuristics and balancing passes.
+
+PHASE 8 - Win conditions and polish
+- Endgame tie logic, final VFX/audio hooks, debugging dashboards.
+- Delete obsolete scripts/fields that are no longer used by the new architecture.
+
+==================================================
+7) KEY TECHNICAL RULES
+==================================================
+- No game rules in Update loops.
+- No direct UI-to-logic mutation outside PlayerAction intent methods.
+- All state mutation occurs through managers/systems only.
+- Every mutation emits an event for UI.
+- Unit-test stateless systems first (evaluator, formula, berserk tracker).
+- If a legacy path has no planned future use, remove it rather than keeping parallel duplicate logic.
+
+==================================================
+8) MINIMUM PLAYABLE MILESTONE (MVP)
+==================================================
+MVP definition:
+- 4 seats (1 human, 3 bots), 180 HP start.
+- Turn flow complete with draw/refill/discard.
+- Number-card poker damage online.
+- Basic special cards online (double damage, heal, AoE, reveal, forced all-in).
+- Berserk interrupts online.
+- Round limit + winner resolution online.
+
+DELIVERY RULE:
+Do not implement everything at once. Complete one phase, test it in-scene, then move forward.

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
 public enum States
 {
@@ -48,6 +46,8 @@ public class EffectCard
 
 public class GameController : MonoBehaviour
 {
+    private const int MinSupportedPlayers = 2;
+    private const int MaxSupportedPlayers = 4;
    
     public States game_state = States.Paused;
     public UiController UI;
@@ -56,9 +56,8 @@ public class GameController : MonoBehaviour
     public List<NumberCard> numberCards;
     public List<EffectCard> effectCards;
 
-    public GameObject PlayerPrefab;
-
-    public GameObject[] playersList;
+    public RulesetData rulesetData;
+    private readonly List<PlayerEntity> runtimePlayers = new List<PlayerEntity>();
 
     //Refs
     UiController UI_C;
@@ -70,32 +69,46 @@ public class GameController : MonoBehaviour
     void Start()
     {
         UI_C = GameObject.Find("Canvas").GetComponent<UiController>();
+        rulesetData = Resources.Load<RulesetData>("Rules/DefaultRulesetData");
+        if (rulesetData == null)
+        {
+            rulesetData = ScriptableObject.CreateInstance<RulesetData>();
+            Debug.LogWarning("Default rules asset missing. Using in-memory RulesetData fallback.");
+        }
     }
 
     public void StartGame(int players)
     {
-        playersList = new GameObject[players];
+        if (players < MinSupportedPlayers || players > MaxSupportedPlayers)
+        {
+            Debug.LogError($"StartGame rejected invalid player count: {players}. Supported range is {MinSupportedPlayers}-{MaxSupportedPlayers}.");
+            return;
+        }
 
         playerCount = players;
+        runtimePlayers.Clear();
+        GameEvents.RaiseGameStarted(players);
+
         for (int i = 0; i < players; i++)
         {
-            GameObject new_player = Instantiate(PlayerPrefab);
-            PlayerController cont = new_player.GetComponent<PlayerController>();
+            PlayerEntity entity = new PlayerEntity
+            {
+                PlayerID = i
+            };
 
-            cont.PlayerID = i;
-            cont.AddNumberCard(DrawNumberCard());
-            cont.AddEffectCard(DrawEffectCard());
-
-            playersList[i] = new_player;
+            entity.AddNumberCard(DrawNumberCard());
+            entity.AddEffectCard(DrawEffectCard());
+            runtimePlayers.Add(entity);
         }
 
         curr_player_turn = 0;
+        GameEvents.RaiseTurnChanged(curr_player_turn);
         UI.InitPlayerUI();
     }
 
     NumberCard DrawNumberCard()
     {
-        int randomNumber = Random.Range(-10, 11);
+        int randomNumber = RNGService.Instance.Range(-10, 11);
 
         if (randomNumber == 0 || randomNumber == 1 || randomNumber == -1)
             randomNumber = 10;
@@ -112,7 +125,7 @@ public class GameController : MonoBehaviour
 
     EffectCard DrawEffectCard()
     {
-        int rand = Random.Range(0, 12);
+        int rand = RNGService.Instance.Range(0, 12);
         Effects randomEffect = (Effects) rand;
         //Effects randomEffect = Effects.DoubleAll;
 
@@ -131,35 +144,45 @@ public class GameController : MonoBehaviour
         return null;
     }
 
-    public void MarkCurrPlayerAsStanding()
+    public void EndCurrentTurn()
     {
-        playersList[curr_player_turn].GetComponent<PlayerController>().standing = true;
+        runtimePlayers[curr_player_turn].Standing = true;
         MoveToNextPlayersTurn();
     }
 
-    public void HitCurrPlayer()
+    public void DrawAndCommitCurrentTurnAction()
     {
-        PlayerController current_player = playersList[curr_player_turn].GetComponent<PlayerController>();
+        PlayerEntity current_player = runtimePlayers[curr_player_turn];
         NumberCard nc = DrawNumberCard();
 
         current_player.AddNumberCard(nc);
 
-        if (current_player.curr_total > 30)
-            current_player.over30 = true;
-
         GameObject.Find("Canvas").GetComponent<UiController>().AddVisualCardToDeck(nc);
+        GameEvents.RaiseCardDrawn(curr_player_turn);
 
         MoveToNextPlayersTurn();
     }
 
     public void PlayEffectCard(int playerID, Effects current_effect)
     {
+        if (playerID < 0 || playerID >= runtimePlayers.Count)
+        {
+            Debug.LogWarning($"Invalid effect target player id: {playerID}");
+            return;
+        }
+
         // Cards that effect Everyone
         if (current_effect == Effects.Minus5ToAll || current_effect == Effects.Plus5ToAll)
-            for (int i = 0; i < playerCount - 1; i++)
-                playersList[i].GetComponent<PlayerController>().ApplyCardEffect(current_effect);
+        {
+            for (int i = 0; i < playerCount; i++)
+            {
+                runtimePlayers[i].ApplyCardEffect(current_effect, round);
+            }
+        }
         else
-            playersList[playerID].GetComponent<PlayerController>().ApplyCardEffect(current_effect);
+        {
+            runtimePlayers[playerID].ApplyCardEffect(current_effect, round);
+        }
     }
 
     public void MoveToNextPlayersTurn()
@@ -171,11 +194,11 @@ public class GameController : MonoBehaviour
         // Start from next index
         for (int i = curr_player_turn + 1; i < playerCount; i++)
         {
-            PlayerController pc = playersList[i].GetComponent<PlayerController>();
+            PlayerEntity pc = runtimePlayers[i];
 
-            Debug.Log($"[CHECK] Player {i} | Standing: {pc.standing} | Over30: {pc.over30}");
+            Debug.Log($"[CHECK] Player {i} | Standing: {pc.Standing} | Over30: {pc.Over30}");
 
-            if (!pc.standing && !pc.over30)
+            if (!pc.Standing && !pc.Over30)
             {
                 nextPlayer = i;
                 break;
@@ -186,6 +209,7 @@ public class GameController : MonoBehaviour
         if (nextPlayer != -1)
         {
             curr_player_turn = nextPlayer;
+            GameEvents.RaiseTurnChanged(curr_player_turn);
 
             Debug.Log($"[TURN] Moving to Player {nextPlayer}");
 
@@ -199,60 +223,13 @@ public class GameController : MonoBehaviour
         DealersTurn();
     }
 
-    //public void MoveToNextPlayersTurn()
-    //{
-    //    if (curr_player_turn == playerCount - 1)
-    //    {
-    //        if (playersList[curr_player_turn].GetComponent<PlayerController>().over30 || playersList[curr_player_turn].GetComponent<PlayerController>().standing)
-    //        {
-    //            GameOver();
-    //            return;
-    //        }
-
-    //        DealersTurn();
-    //        return;
-    //    }
-
-    //    bool foundNextTurn = false;
-
-    //    for (int i = curr_player_turn + 1; i < playerCount; i++)
-    //    {
-    //        PlayerController pc = playersList[i].GetComponent<PlayerController>();
-
-    //        if (!pc.standing && !pc.over30)
-    //        {
-    //            curr_player_turn = i;
-    //            foundNextTurn = true;
-    //            break;
-    //        }
-    //    }
-
-    //    if (!foundNextTurn)
-    //    {
-    //        PlayerController pc = playersList[curr_player_turn].GetComponent<PlayerController>();
-
-    //        if (pc.standing || pc.over30)
-    //        {
-    //            GameOver();
-    //        }
-    //        else
-    //        {
-    //            StartCoroutine(GoToNextTurn());
-    //        }
-    //    }
-    //    else
-    //    {
-    //        StartCoroutine(GoToNextTurn());
-    //    }
-    //}
-
     public List<NumberCard> GetPlayerNumberCards(int playerID)
     { 
-        foreach (GameObject pc in playersList)
+        foreach (PlayerEntity player in runtimePlayers)
         {
-            if (pc.GetComponent<PlayerController>().PlayerID == playerID)
+            if (player.PlayerID == playerID)
             {
-                return pc.GetComponent<PlayerController>().number_cards;
+                return player.NumberCards;
             }
         }
 
@@ -261,15 +238,35 @@ public class GameController : MonoBehaviour
 
     public EffectCard GetPlayerEffectCard(int playerID)
     {
-        foreach (GameObject pc in playersList)
+        foreach (PlayerEntity player in runtimePlayers)
         {
-            if (pc.GetComponent<PlayerController>().PlayerID == playerID)
+            if (player.PlayerID == playerID)
             {
-                return pc.GetComponent<PlayerController>().effect_card;
+                return player.EffectCard;
             }
         }
 
         return null;
+    }
+
+    public int GetPlayerTotal(int playerID)
+    {
+        if (playerID < 0 || playerID >= runtimePlayers.Count)
+        {
+            return 0;
+        }
+
+        return runtimePlayers[playerID].CurrentTotal;
+    }
+
+    public string GetPlayerCardSequence(int playerID)
+    {
+        if (playerID < 0 || playerID >= runtimePlayers.Count)
+        {
+            return string.Empty;
+        }
+
+        return runtimePlayers[playerID].CardSequence;
     }
 
     public void DealersTurn()
@@ -277,7 +274,7 @@ public class GameController : MonoBehaviour
         int nextPlayer = -1;
         for (int i = 0; i < playerCount; i++)
         {
-            if (!playersList[i].GetComponent<PlayerController>().standing && !playersList[i].GetComponent<PlayerController>().over30)
+            if (!runtimePlayers[i].Standing && !runtimePlayers[i].Over30)
             {
                 nextPlayer = i;
                 break;
@@ -299,21 +296,20 @@ public class GameController : MonoBehaviour
         UI_C.UpdateDealersCard(drawnCard);
 
         // Apply effect to everyone
-        foreach (GameObject pc in playersList)
+        for (int i = 0; i < playerCount; i++)
         {
-            PlayerController playCont = pc.GetComponent<PlayerController>();
-
-            if (!playCont.standing && !playCont.over30)
+            PlayerEntity playCont = runtimePlayers[i];
+            if (!playCont.Standing && !playCont.Over30)
             {
-                playCont.ApplyCardEffect(drawnCard.card_effect);
+                playCont.ApplyCardEffect(drawnCard.card_effect, round);
             }
         }
 
         for (int i = 0; i < playerCount; i++)
         {
-            if (playersList[i].GetComponent<PlayerController>().curr_total > 30)
+            if (runtimePlayers[i].CurrentTotal > 30)
             {
-                playersList[i].GetComponent<PlayerController>().over30 = true;
+                runtimePlayers[i].Over30 = true;
                 break;
             }
         }
@@ -322,7 +318,7 @@ public class GameController : MonoBehaviour
         // Move on
         for (int i = 0; i < playerCount; i++)
         {
-            if (!playersList[i].GetComponent<PlayerController>().standing && !playersList[i].GetComponent<PlayerController>().over30)
+            if (!runtimePlayers[i].Standing && !runtimePlayers[i].Over30)
             {
                 curr_player_turn = i;
                 break;
@@ -330,6 +326,7 @@ public class GameController : MonoBehaviour
         }
 
         round++;
+        GameEvents.RaiseRoundChanged(round);
         StartCoroutine(GoToNextTurn());
     }
 
@@ -342,28 +339,28 @@ public class GameController : MonoBehaviour
 
     void GameOver()
     {
-        List<PlayerController> winning_players = new List<PlayerController>();
+        List<PlayerEntity> winning_players = new List<PlayerEntity>();
         int target = int.MinValue;
 
         for (int i = 0; i < playerCount; i++)
         {
-            PlayerController player = playersList[i].GetComponent<PlayerController>();
+            PlayerEntity player = runtimePlayers[i];
 
             if (winning_players.Count == 0)
             {
                 Debug.Log("Adding Winner: " + player.PlayerID);
                 winning_players.Add(player);
-                target = player.curr_total;
+                target = player.CurrentTotal;
             }
             else
             {
-                if (player.curr_total > target)
+                if (player.CurrentTotal > target)
                 {
                     winning_players.Clear();
                     winning_players.Add(player);
                     Debug.Log("Adding Winner: " + player.PlayerID);
                 }
-                else if (player.curr_total == target)
+                else if (player.CurrentTotal == target)
                 {
                     winning_players.Add(player);
                 }
@@ -372,10 +369,11 @@ public class GameController : MonoBehaviour
 
         Debug.Log("Winners: ");
 
-        foreach (PlayerController player in winning_players)
+        foreach (PlayerEntity player in winning_players)
             Debug.Log("Player " + player.PlayerID);
 
         UI_C.ShowWinningScreen();
         UI_C.UpdateWinnerScreen(winning_players[0].PlayerID);
+        GameEvents.RaiseGameEnded(winning_players[0].PlayerID);
     }
 }

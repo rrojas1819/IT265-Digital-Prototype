@@ -1,21 +1,20 @@
-using NUnit.Framework;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UiController : MonoBehaviour
 {
+    private const int MinSupportedPlayers = 2;
+    private const int MaxSupportedPlayers = 4;
+
     public GameController Controller;
     public GameObject start_menu;
     public GameObject game_settings;
     public GameObject HUD;
     public GameObject game_over;
-    public TMP_InputField Player_Count_Input;
     public GameObject UICardprefab;
     public GameObject OppInput;
+    public Transform tableRoot;
 
     int card_total = 0;
     Effects curr_effect = Effects.None;
@@ -26,6 +25,9 @@ public class UiController : MonoBehaviour
         game_settings.SetActive(false);
         HUD.SetActive(false);
         game_over.SetActive(false);
+
+        // Keep table seats hidden until a valid player count is selected.
+        SetSeatVisibility(0);
     }
 
     public void OnPlayClick()
@@ -34,18 +36,102 @@ public class UiController : MonoBehaviour
         game_settings.SetActive(true);
     }
 
-    public void OnGameSettingsClick()
+    public void OnOpponentCountSelected(int selectedCount)
     {
-        game_settings.SetActive(false);
-        int player_count = int.Parse(Player_Count_Input.text);
-
-        if (player_count <= 0)
+        int playerCount = NormalizePlayerCount(selectedCount);
+        if (playerCount < MinSupportedPlayers || playerCount > MaxSupportedPlayers)
         {
-            Debug.Log("PlayerCount <= 0");
+            Debug.LogWarning($"Invalid player count selected: {selectedCount}");
             return;
         }
 
-        Controller.StartGame(player_count);
+        if (!ValidateRequiredSeats(playerCount))
+        {
+            Debug.LogError("Cannot start game because seat setup is invalid.");
+            return;
+        }
+
+        SetSeatVisibility(playerCount);
+        game_settings.SetActive(false);
+        Controller.StartGame(playerCount);
+    }
+
+    private int NormalizePlayerCount(int selectedCount)
+    {
+        if (selectedCount >= MinSupportedPlayers && selectedCount <= MaxSupportedPlayers)
+        {
+            return selectedCount;
+        }
+
+        // Backward-compatible fallback if old button bindings still pass opponent count.
+        int opponentToPlayerCount = selectedCount + 1;
+        if (opponentToPlayerCount >= MinSupportedPlayers && opponentToPlayerCount <= MaxSupportedPlayers)
+        {
+            return opponentToPlayerCount;
+        }
+
+        return selectedCount;
+    }
+
+    private bool ValidateRequiredSeats(int playerCount)
+    {
+        Transform resolvedTableRoot = GetTableRoot();
+        if (resolvedTableRoot == null)
+        {
+            Debug.LogError("TableRoot was not found. Expected Canvas/TableRoot.");
+            return false;
+        }
+
+        for (int i = 1; i <= playerCount; i++)
+        {
+            if (resolvedTableRoot.Find($"Seat_{i}") == null)
+            {
+                Debug.LogError($"Missing required seat object: Seat_{i}");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void SetSeatVisibility(int activeSeatCount)
+    {
+        Transform resolvedTableRoot = GetTableRoot();
+        if (resolvedTableRoot == null)
+        {
+            return;
+        }
+
+        for (int i = 1; i <= MaxSupportedPlayers; i++)
+        {
+            Transform seat = resolvedTableRoot.Find($"Seat_{i}");
+            if (seat != null)
+            {
+                seat.gameObject.SetActive(i <= activeSeatCount);
+            }
+        }
+    }
+
+    private Transform GetTableRoot()
+    {
+        if (tableRoot != null)
+        {
+            return tableRoot;
+        }
+
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas == null)
+        {
+            return null;
+        }
+
+        Transform resolved = canvas.transform.Find("TableRoot");
+        if (resolved != null)
+        {
+            tableRoot = resolved;
+        }
+
+        return resolved;
     }
 
     public void InitPlayerUI()
@@ -77,10 +163,10 @@ public class UiController : MonoBehaviour
         }
 
         // Count Total
-        card_total = Controller.playersList[Controller.curr_player_turn].GetComponent<PlayerController>().curr_total;
+        card_total = Controller.GetPlayerTotal(Controller.curr_player_turn);
         HUD.transform.Find("Player Total").GetComponent<TMP_Text>().text = card_total.ToString();
 
-        HUD.transform.Find("Card Seq").GetComponent<TMP_Text>().text = Controller.playersList[Controller.curr_player_turn].GetComponent<PlayerController>().card_seq;
+        HUD.transform.Find("Card Seq").GetComponent<TMP_Text>().text = Controller.GetPlayerCardSequence(Controller.curr_player_turn);
 
 
         // Set Effect Card
@@ -107,29 +193,29 @@ public class UiController : MonoBehaviour
 
         card.transform.SetParent(HUD.transform.Find("Player Cards").transform);
 
-        card_total = Controller.playersList[Controller.curr_player_turn].GetComponent<PlayerController>().curr_total;
+        card_total = Controller.GetPlayerTotal(Controller.curr_player_turn);
 
         HUD.transform.Find("Player Total").GetComponent<TMP_Text>().text = card_total.ToString();
     }
 
     public void UpdatePlayerTotal()
     {
-        //card_total = Controller.playersList[Controller.curr_player_turn].GetComponent<PlayerController>().curr_total;
+        //card_total = Controller.GetPlayerTotal(Controller.curr_player_turn);
         //HUD.transform.Find("Player Total").GetComponent<TMP_Text>().text = card_total.ToString();
     }
 
 
-    public void HitButtonClick()
+    public void OnCommitActionClick()
     {
-        Controller.HitCurrPlayer();
+        Controller.DrawAndCommitCurrentTurnAction();
     }
 
-    public void StandButtonClick()
+    public void OnEndTurnClick()
     {
-        Controller.MarkCurrPlayerAsStanding();
+        Controller.EndCurrentTurn();
     }
 
-    public void PlayEffectButtunCLick()
+    public void OnPlayEffectButtonClick()
     {
         int playerNum;
 
