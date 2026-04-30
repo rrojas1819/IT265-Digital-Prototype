@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7814d48697463e141b5452e460e87ecd
+guid: 71cb54effd22d5c4eacf3867e402f282
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,30 +93,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Negative_1_0
+      name: Full-29_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2339
-        width: 620
-        height: 1169
+        x: 325
+        y: 2140
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33fcb77e57d82244f8dae7a8bbe992e8
-      internalID: 582930122
+      spriteID: d8c5098ecbef1954c91bb3f0b0d72841
+      internalID: -1327369182
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_1
+      name: Full-29_1
       rect:
         serializedVersion: 2
-        x: 620
-        y: 2339
-        width: 620
-        height: 1169
+        x: 962
+        y: 2140
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 886d624270a92204289998abee565b41
-      internalID: 794704323
+      spriteID: 9b2bf3fa589e13d4fa6016389bf17c1c
+      internalID: -727406022
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_2
+      name: Full-29_2
       rect:
         serializedVersion: 2
-        x: 1240
-        y: 2339
-        width: 620
-        height: 1169
+        x: 1599
+        y: 2140
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 466dc1d911f9cf948be7eec9c4144f92
-      internalID: 789433321
+      spriteID: c4fba903b7045ea4b9c76bd3d2f22221
+      internalID: -1608385075
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_3
+      name: Full-29_3
       rect:
         serializedVersion: 2
-        x: 1860
-        y: 2339
-        width: 620
-        height: 1169
+        x: 325
+        y: 1245
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33b17ccd42f04154a8a39cfb94d4966a
-      internalID: -1713648592
+      spriteID: 9e900405e87195942a9dfe1dbf90a47c
+      internalID: -2126843294
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_4
+      name: Full-29_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1170
-        width: 620
-        height: 1169
+        x: 962
+        y: 1245
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f838051bbd8f554089bd4deedfb71b2
-      internalID: 61009491
+      spriteID: 4d78ea111484e8a41b8fad8272abdfb3
+      internalID: -1379774697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_5
+      name: Full-29_5
       rect:
         serializedVersion: 2
-        x: 620
-        y: 1170
-        width: 620
-        height: 1169
+        x: 1599
+        y: 1245
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,20 +222,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a24b348a9737720418c25943dbc895d7
-      internalID: 1325784251
+      spriteID: aa60ce14498d9d04c8fd9f9d9318e281
+      internalID: 1515460019
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_6
+      name: Full-29_6
       rect:
         serializedVersion: 2
-        x: 1240
-        y: 1170
-        width: 620
-        height: 1169
+        x: 325
+        y: 350
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,20 +244,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd9805e6514626f43aa17c2a80eaa4d7
-      internalID: 1564349723
+      spriteID: f2a48695d5969b74d9ed8a2cd3aecaca
+      internalID: 447895618
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_7
+      name: Full-29_7
       rect:
         serializedVersion: 2
-        x: 1860
-        y: 1170
-        width: 620
-        height: 1169
+        x: 962
+        y: 350
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -279,20 +266,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 786eb665b1a52bc42a19181c3b003d25
-      internalID: 1147154377
+      spriteID: 3755f35e2e59e9342a84df8c800c3891
+      internalID: -238599297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Negative_1_8
+      name: Full-29_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1
-        width: 620
-        height: 1169
+        x: 1599
+        y: 350
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -301,74 +288,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a58bbc4700847c47a6c1bf77ead554c
-      internalID: -1408434802
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Negative_1_9
-      rect:
-        serializedVersion: 2
-        x: 620
-        y: 1
-        width: 620
-        height: 1169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9a76f544e6eb8f546bd84263cfb7fd29
-      internalID: 1062363657
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Negative_1_10
-      rect:
-        serializedVersion: 2
-        x: 1240
-        y: 1
-        width: 620
-        height: 1169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 261bd07a83300e24db7527af20eef4a8
-      internalID: -53546567
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Negative_1_11
-      rect:
-        serializedVersion: 2
-        x: 1860
-        y: 1
-        width: 620
-        height: 1169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fec8cd84a7495d04e815106513f7592b
-      internalID: 611358526
+      spriteID: 6e7dbfdbbb9b28b42bee3e96d4fcb97b
+      internalID: -2052937462
       vertices: []
       indices: 
       edges: []
@@ -377,7 +298,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ef2ca8bdb26476a4881d3bf81caea442
+    spriteID: d7d74e066c8193e4282d701f8ad0db69
     internalID: 0
     vertices: []
     indices: 
@@ -386,23 +307,18 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries:
-      - key: SpriteEditor.SliceOnImport
-        value: False
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":3.0},"gridSpriteSize":{"x":620.0,"y":1169.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":637.0,"y":895.0},"gridSpriteOffset":{"x":325.0,"y":265.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Negative_1_0: 582930122
-      Negative_1_1: 794704323
-      Negative_1_10: -53546567
-      Negative_1_11: 611358526
-      Negative_1_2: 789433321
-      Negative_1_3: -1713648592
-      Negative_1_4: 61009491
-      Negative_1_5: 1325784251
-      Negative_1_6: 1564349723
-      Negative_1_7: 1147154377
-      Negative_1_8: -1408434802
-      Negative_1_9: 1062363657
+      Full-29_0: -1327369182
+      Full-29_1: -727406022
+      Full-29_2: -1608385075
+      Full-29_3: -2126843294
+      Full-29_4: -1379774697
+      Full-29_5: 1515460019
+      Full-29_6: 447895618
+      Full-29_7: -238599297
+      Full-29_8: -2052937462
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

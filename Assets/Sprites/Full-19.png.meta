@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fdb68cce488c54b4dae29a6c9d64e8cb
+guid: 6b9f8483826668c4f9a257840b777197
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,30 +93,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Postive_2_9
+      name: Full-19_0
       rect:
         serializedVersion: 2
-        x: 620
-        y: 1
-        width: 620
-        height: 1169
+        x: 325
+        y: 2140
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 984dd7fb31ec309488afa17815837d88
-      internalID: 2034595647
+      spriteID: 70239ba7154a23a46bae34c0cb2b3225
+      internalID: 374366616
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_10
+      name: Full-19_1
       rect:
         serializedVersion: 2
-        x: 1240
-        y: 1
-        width: 620
-        height: 1169
+        x: 962
+        y: 2140
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcb14e32b9d96ca4aa4546929388ba6a
-      internalID: -1826823377
+      spriteID: bc26dd0d06e29b145840a76b4d714afd
+      internalID: 79434362
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_11
+      name: Full-19_2
       rect:
         serializedVersion: 2
-        x: 1860
-        y: 1
-        width: 620
-        height: 1169
+        x: 1599
+        y: 2140
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18bb5e6cb918b9a4db7bd2b575c50fd7
-      internalID: -1054613744
+      spriteID: 8d1f2eedce469e741bfb572f023b9f6a
+      internalID: 1302315665
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_0
+      name: Full-19_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2339
-        width: 620
-        height: 1169
+        x: 325
+        y: 1245
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a4744aecb5108144b78abd8e3cbea74
-      internalID: -432122462
+      spriteID: 90e7f991452dcb449975cf505d2604ac
+      internalID: 1263955825
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_1
+      name: Full-19_4
       rect:
         serializedVersion: 2
-        x: 620
-        y: 2339
-        width: 620
-        height: 1169
+        x: 962
+        y: 1245
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 952a6146cce3e9f46a4ec81bae2abee1
-      internalID: -786596728
+      spriteID: baf15a81a81f4d04fba552d87590890a
+      internalID: 2080191121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_2
+      name: Full-19_5
       rect:
         serializedVersion: 2
-        x: 1240
-        y: 2339
-        width: 620
-        height: 1169
+        x: 1599
+        y: 1245
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,20 +222,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 005e31b7713490140877b544c85b22b2
-      internalID: -325328499
+      spriteID: b9c2e2a6f8b992e48a1ce4aa54f27596
+      internalID: 1061592477
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_3
+      name: Full-19_6
       rect:
         serializedVersion: 2
-        x: 1860
-        y: 2339
-        width: 620
-        height: 1169
+        x: 325
+        y: 350
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,20 +244,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 494658da5c0de564cb55af9a5d9fbe78
-      internalID: 1190096310
+      spriteID: 4c66cb7a2b7eb2945aeca47ec76977d7
+      internalID: -2129885997
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_4
+      name: Full-19_7
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1170
-        width: 620
-        height: 1169
+        x: 962
+        y: 350
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -279,20 +266,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18af8c54696fb9640bf5f40a35409a9c
-      internalID: 500276555
+      spriteID: 66984fae561d8c940875333b01dfd5ee
+      internalID: -336528621
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Postive_2_5
+      name: Full-19_8
       rect:
         serializedVersion: 2
-        x: 620
-        y: 1170
-        width: 620
-        height: 1169
+        x: 1599
+        y: 350
+        width: 637
+        height: 895
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -301,74 +288,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99a404e71f51f2f42917e68e493fa554
-      internalID: -205642118
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Postive_2_6
-      rect:
-        serializedVersion: 2
-        x: 1240
-        y: 1170
-        width: 620
-        height: 1169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dbbc8e64fe616bd4cb90c36ba1ebcf98
-      internalID: -1291423314
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Postive_2_7
-      rect:
-        serializedVersion: 2
-        x: 1860
-        y: 1170
-        width: 620
-        height: 1169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 010a0ae800a73c542b492db15cc30968
-      internalID: -1771910258
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Postive_2_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1
-        width: 620
-        height: 1169
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 44336f5e681e3c64eb56e55eb2798f2b
-      internalID: 1331364864
+      spriteID: 0bcbb76a6e53c8945bbc3e9608f8f3be
+      internalID: 704010927
       vertices: []
       indices: 
       edges: []
@@ -377,7 +298,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 01204796d168acf4a898518f3f6efa35
+    spriteID: bacc6c63e806bc1428026794395c6746
     internalID: 0
     vertices: []
     indices: 
@@ -387,20 +308,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":3.0},"gridSpriteSize":{"x":620.0,"y":1169.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":637.0,"y":895.0},"gridSpriteOffset":{"x":325.0,"y":265.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Postive_2_0: -432122462
-      Postive_2_1: -786596728
-      Postive_2_10: -1826823377
-      Postive_2_11: -1054613744
-      Postive_2_2: -325328499
-      Postive_2_3: 1190096310
-      Postive_2_4: 500276555
-      Postive_2_5: -205642118
-      Postive_2_6: -1291423314
-      Postive_2_7: -1771910258
-      Postive_2_8: 1331364864
-      Postive_2_9: 2034595647
+      Full-19_0: 374366616
+      Full-19_1: 79434362
+      Full-19_2: 1302315665
+      Full-19_3: 1263955825
+      Full-19_4: 2080191121
+      Full-19_5: 1061592477
+      Full-19_6: -2129885997
+      Full-19_7: -336528621
+      Full-19_8: 704010927
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
