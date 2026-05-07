@@ -1,93 +1,73 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class PlayerEntity
 {
-    public int PlayerID;
-    public bool Standing;
-    public bool Over30;
-    public EffectCard EffectCard;
-    public readonly List<NumberCard> NumberCards = new List<NumberCard>();
-    public int CurrentTotal;
-    public readonly List<Effects> ActiveEffects = new List<Effects>();
-    public string CardSequence = string.Empty;
+    public int SeatIndex;
+    public bool IsHuman;
+    public int CurrentHp;
+    public int MaxHp;
 
-    public void AddNumberCard(NumberCard card)
+    public List<HandCard> Hand = new List<HandCard>();
+
+    public PlayerBuffController Buffs = new PlayerBuffController();
+
+    public bool SpadeBonusNextStrike;
+    public int TempShieldCharges;
+    public bool DoubleNextStrike;
+
+    public bool IsEliminated => CurrentHp <= 0;
+
+    public string HandSummary
     {
-        if (card == null)
+        get
         {
-            Debug.LogWarning("Attempted to add null NumberCard to PlayerEntity.");
-            return;
-        }
+            if (Hand.Count == 0)
+            {
+                return "empty";
+            }
 
-        NumberCards.Add(card);
-        CurrentTotal += card.card_value;
-        CardSequence += $" {card.card_value} +";
-        Over30 = CurrentTotal > 30;
-    }
-
-    public void AddEffectCard(EffectCard card)
-    {
-        if (card == null)
-        {
-            Debug.LogWarning("Attempted to add null EffectCard to PlayerEntity.");
-            return;
-        }
-
-        EffectCard = card;
-    }
-
-    public void ApplyCardEffect(Effects effect, int currentRound)
-    {
-        CardSequence += $" = {CurrentTotal} ";
-
-        switch (effect)
-        {
-            case Effects.DoubleAll:
-                CurrentTotal *= 2;
-                break;
-            case Effects.EvenNumsDoubled:
-                if (CurrentTotal % 2 == 0) CurrentTotal *= 2;
-                break;
-            case Effects.FlipSign:
-                CurrentTotal *= -1;
-                break;
-            case Effects.HalfAll:
-                CurrentTotal /= 2;
-                break;
-            case Effects.Minus5ToAll:
-                CurrentTotal -= 5;
-                break;
-            case Effects.OddNumsDoubled:
-                if (CurrentTotal % 2 != 0) CurrentTotal *= 2;
-                break;
-            case Effects.Plus5ToAll:
-                CurrentTotal += 5;
-                break;
-            case Effects.RoundCard:
-                CurrentTotal = (int)(System.Math.Round(CurrentTotal / 10.0, System.MidpointRounding.AwayFromZero) * 10);
-                break;
-            case Effects.Plus10ToAll:
-                CurrentTotal += 10;
-                break;
-            case Effects.Plus2ForAllPosCards:
-                foreach (NumberCard nc in NumberCards)
+            var sb = new StringBuilder();
+            for (int i = 0; i < Hand.Count; i++)
+            {
+                if (i > 0)
                 {
-                    if (nc.card_value > 0) CurrentTotal += 2;
+                    sb.Append(',');
                 }
-                break;
-            case Effects.MultiplyByNumRounds:
-                CurrentTotal *= currentRound;
-                break;
-            case Effects.DoublePositive:
-                if (CurrentTotal > 0) CurrentTotal *= 2;
-                break;
-            case Effects.SwapToRight:
-                // Reserved for multiplayer seat swap logic in later phase.
-                break;
+
+                sb.Append(Hand[i].ShortLabel());
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    public void ApplyDamage(int amount, bool isChipDamage = false)
+    {
+        if (amount <= 0)
+        {
+            return;
         }
 
-        Over30 = CurrentTotal > 30;
-        CardSequence += $"w/ {effect} = {CurrentTotal} +";
+        if (isChipDamage && Buffs.HeartImmuneChip)
+        {
+            return;
+        }
+
+        int next = CurrentHp - amount;
+        if (next <= 0 && Buffs.HeartDeathNegationAvailable)
+        {
+            Buffs.HeartDeathNegationAvailable = false;
+            CurrentHp = 1;
+            return;
+        }
+
+        CurrentHp = Mathf.Max(0, next);
+    }
+
+    public void ApplyHeal(int amount)
+    {
+        CurrentHp = Mathf.Min(MaxHp, CurrentHp + Mathf.Max(0, amount));
     }
 }

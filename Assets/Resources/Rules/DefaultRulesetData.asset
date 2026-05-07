@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3004c24f8003d468ad8c2172ccfc10, type: 3}
+  m_Name: DefaultRulesetData
+  m_EditorClassIdentifier: Assembly-CSharp::RulesetData
+  minPlayers: 3
+  maxPlayers: 6
+  maxRounds: 10
+  startingHealth: 180
+  maxHandSize: 6
+  maxCardsPerAttack: 5
+  duplicateRankBonus: 5
+  tripleDamageMultiplier: 1.3
+  straightFlushTargetHpPercent: 0.5
+  spadeBonusDamage: 2
+  diamondFlatDefense: 3
+  jokerChipDamagePerRound: 2

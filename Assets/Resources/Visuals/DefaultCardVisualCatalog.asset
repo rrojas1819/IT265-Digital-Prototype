@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2c3d4e5f60718293a4b5c6d7e8f0a1, type: 3}
+  m_Name: DefaultCardVisualCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::CardVisualCatalog
+  clubRankSprites:
+  - {fileID: 21300000, guid: 4ce4e0e1168595c4e927dabb94b94247, type: 3}
+  - {fileID: 21300000, guid: c5152d0b9a666f04ea46f4b6f5e54e99, type: 3}
+  - {fileID: 21300000, guid: 96b83b82ff2b8154d9a1603e1baf160e, type: 3}
+  - {fileID: 21300000, guid: 85e57ea62fc53764f84ad9c1bd7d1d32, type: 3}
+  - {fileID: 21300000, guid: ec6af1de89c7a2f43aaa285100d57b66, type: 3}
+  - {fileID: 21300000, guid: 2f763abcc409a5f4baa21a765786fdcf, type: 3}
+  - {fileID: 21300000, guid: 9912e6c56345f1e45a2fc008497650bf, type: 3}
+  diamondRankSprites:
+  - {fileID: 658641428, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  - {fileID: 198281627, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  - {fileID: -1759038449, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  - {fileID: 1997465882, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  - {fileID: -2071185503, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  - {fileID: 2087778193, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  - {fileID: -367627696, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  heartRankSprites:
+  - {fileID: 374366616, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  - {fileID: 79434362, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  - {fileID: 1302315665, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  - {fileID: 1263955825, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  - {fileID: 2080191121, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  - {fileID: 1061592477, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  - {fileID: -2129885997, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  spadeRankSprites:
+  - {fileID: -1327369182, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  - {fileID: -727406022, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  - {fileID: -1608385075, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  - {fileID: -2126843294, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  - {fileID: -1379774697, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  - {fileID: 1515460019, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  - {fileID: 447895618, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  diamondShared: {fileID: 658641428, guid: 9069434f3d76d5846b8700492b8959ca, type: 3}
+  heartShared: {fileID: 374366616, guid: 6b9f8483826668c4f9a257840b777197, type: 3}
+  spadeShared: {fileID: -1327369182, guid: 71cb54effd22d5c4eacf3867e402f282, type: 3}
+  jokerSprite: {fileID: -813181804, guid: 9029cf7fb06f0da4f959d9d16e6c6d38, type: 3}
+  aoeVolcano: {fileID: -119986760, guid: 45c1d3dddc1467349a9d4747f69346e1, type: 3}
+  doubleDamage: {fileID: -1178257695, guid: a3d0d77505b235c4aa69ce9529ac7d07, type: 3}
+  damagePerRound: {fileID: -1245843612, guid: af098f2c63088a94c8425e5962363de5, type: 3}
+  forcedAllIn: {fileID: -1294338974, guid: f27f340b46576144eb6ed5a70b728f36, type: 3}
+  heal30: {fileID: 568857529, guid: e29fa7ae6f85b024caca07923380e901, type: 3}
+  reveal4: {fileID: 1634876284, guid: a07e6bbf2f7b334428c4a2a6ca07494e, type: 3}
+  voidCard: {fileID: -663134004, guid: 914a7299c6cafa84dae1aa1641302371, type: 3}

@@ -20,4 +20,10 @@ public class RulesetData : ScriptableObject
     public int spadeBonusDamage = 2;
     public int diamondFlatDefense = 3;
     public int jokerChipDamagePerRound = 2;
+
+    [Header("Special strike tuning")]
+    public int aoeDamagePerOpponent = 22;
+    public int dprTickDamage = 10;
+    public int dprRoundDuration = 2;
+    public int healSpecialAmount = 30;
 }

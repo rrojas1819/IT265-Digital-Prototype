@@ -12,26 +12,48 @@ public static class GameEvents
     public static Action<int> OnCardDiscarded;
     public static Action<int> OnGameEnded;
 
-    public static void RaiseGameStarted(int playerCount) => OnGameStarted?.Invoke(playerCount);
-    public static void RaiseTurnChanged(int playerId) => OnTurnChanged?.Invoke(playerId);
-    public static void RaisePlayerDamaged(int playerId, int amount) => OnPlayerDamaged?.Invoke(playerId, amount);
-    public static void RaisePlayerHealed(int playerId, int amount) => OnPlayerHealed?.Invoke(playerId, amount);
-    public static void RaisePlayerEliminated(int playerId) => OnPlayerEliminated?.Invoke(playerId);
-    public static void RaiseRoundChanged(int round) => OnRoundChanged?.Invoke(round);
-    public static void RaiseCardDrawn(int playerId) => OnCardDrawn?.Invoke(playerId);
-    public static void RaiseCardDiscarded(int playerId) => OnCardDiscarded?.Invoke(playerId);
-    public static void RaiseGameEnded(int winnerId) => OnGameEnded?.Invoke(winnerId);
-
-    public static void ClearAllListeners()
+    public static void RaiseGameStarted(int playerCount)
     {
-        OnGameStarted = null;
-        OnTurnChanged = null;
-        OnPlayerDamaged = null;
-        OnPlayerHealed = null;
-        OnPlayerEliminated = null;
-        OnRoundChanged = null;
-        OnCardDrawn = null;
-        OnCardDiscarded = null;
-        OnGameEnded = null;
+        if (OnGameStarted != null) OnGameStarted(playerCount);
+    }
+
+    public static void RaiseTurnChanged(int playerId)
+    {
+        if (OnTurnChanged != null) OnTurnChanged(playerId);
+    }
+
+    public static void RaisePlayerDamaged(int playerId, int amount)
+    {
+        if (OnPlayerDamaged != null) OnPlayerDamaged(playerId, amount);
+    }
+
+    public static void RaisePlayerHealed(int playerId, int amount)
+    {
+        if (OnPlayerHealed != null) OnPlayerHealed(playerId, amount);
+    }
+
+    public static void RaisePlayerEliminated(int playerId)
+    {
+        if (OnPlayerEliminated != null) OnPlayerEliminated(playerId);
+    }
+
+    public static void RaiseRoundChanged(int round)
+    {
+        if (OnRoundChanged != null) OnRoundChanged(round);
+    }
+
+    public static void RaiseCardDrawn(int playerId)
+    {
+        if (OnCardDrawn != null) OnCardDrawn(playerId);
+    }
+
+    public static void RaiseCardDiscarded(int playerId)
+    {
+        if (OnCardDiscarded != null) OnCardDiscarded(playerId);
+    }
+
+    public static void RaiseGameEnded(int winnerId)
+    {
+        if (OnGameEnded != null) OnGameEnded(winnerId);
     }
 }

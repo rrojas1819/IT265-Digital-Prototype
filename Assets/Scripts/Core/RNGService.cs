@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class RNGService
+public class RNGService
 {
-    private static readonly RNGService _instance = new RNGService();
+    private static RNGService _instance = new RNGService();
 
     public static RNGService Instance => _instance;
 
@@ -22,7 +22,6 @@ public sealed class RNGService
         _random = new System.Random(seed);
     }
 
-    // Inclusive min, exclusive max to mirror Unity's int Range behavior.
     public int Range(int minInclusive, int maxExclusive)
     {
         return _random.Next(minInclusive, maxExclusive);
@@ -38,18 +37,9 @@ public sealed class RNGService
         for (int i = list.Count - 1; i > 0; i--)
         {
             int swapIndex = _random.Next(0, i + 1);
-            (list[i], list[swapIndex]) = (list[swapIndex], list[i]);
+            T temp = list[i];
+            list[i] = list[swapIndex];
+            list[swapIndex] = temp;
         }
-    }
-
-    public T PickRandom<T>(IList<T> list)
-    {
-        if (list == null || list.Count == 0)
-        {
-            Debug.LogWarning("RNGService.PickRandom was called with an empty list.");
-            return default;
-        }
-
-        return list[_random.Next(0, list.Count)];
     }
 }

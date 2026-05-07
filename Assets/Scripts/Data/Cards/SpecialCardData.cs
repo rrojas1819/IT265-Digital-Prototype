@@ -19,4 +19,7 @@ public class SpecialCardData : CardData
     public SpecialEffectType effectType = SpecialEffectType.None;
     public bool removeAfterUse;
     public bool oncePerGame;
+
+    [Tooltip("Rank fed into poker scoring when this special is played with number cards.")]
+    [Range(2, 14)] public int rankForScoring = 10;
 }

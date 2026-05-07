@@ -4,6 +4,8 @@ using UnityEngine;
 public class NumberCardData : CardData
 {
     [Header("Number Card Values")]
-    [Range(1, 13)] public int rank = 9;
-    public int value = 9;
+    [Range(1, 14)] public int rank = 9;
+
+    [Tooltip("Uses joker art; cannot earn permanent suit buffs from four-of-a-kind.")]
+    public bool isJoker;
 }
