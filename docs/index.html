@@ -103,9 +103,30 @@
 
 
       } else {
-        // Desktop style: make canvas fill the viewport.
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
+        // Desktop style: keep a 16:9 game area fully visible (letterboxed if needed).
+        const targetAspect = 16 / 9;
+        const resizeDesktopCanvas = () => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const viewportAspect = vw / vh;
+
+          let width, height;
+          if (viewportAspect > targetAspect) {
+            height = vh;
+            width = Math.floor(height * targetAspect);
+          } else {
+            width = vw;
+            height = Math.floor(width / targetAspect);
+          }
+
+          canvas.style.width = width + "px";
+          canvas.style.height = height + "px";
+          canvas.style.left = Math.floor((vw - width) / 2) + "px";
+          canvas.style.top = Math.floor((vh - height) / 2) + "px";
+        };
+
+        resizeDesktopCanvas();
+        window.addEventListener("resize", resizeDesktopCanvas);
       }
 
       document.querySelector("#unity-loading-bar").style.display = "block";
